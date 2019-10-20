@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.*
 import kotlinx.android.synthetic.main.activity_main.*
 import android.util.TypedValue
+import android.view.Gravity
 
 
 class MainActivity : AppCompatActivity() {
@@ -38,6 +39,7 @@ class MainActivity : AppCompatActivity() {
                 TableLayout.LayoutParams.MATCH_PARENT,
                 1.0f
             )
+            row.setGravity(Gravity.CENTER);
 
             for (columnCounter in 0 until cols) {
                 tableLayout.setColumnStretchable(columnCounter, true)
@@ -54,6 +56,7 @@ class MainActivity : AppCompatActivity() {
                         6 -> day = "Sunday"
                     }
                     textView.text = day
+                    textView.setGravity(Gravity.CENTER);
                     row.addView(textView)
                 } else {
                     val toggleButton = ToggleButton(this)
