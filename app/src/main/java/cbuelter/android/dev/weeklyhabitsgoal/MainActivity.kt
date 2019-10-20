@@ -1,14 +1,13 @@
 package cbuelter.android.dev.weeklyhabitsgoal
 
+import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.support.v4.content.res.ResourcesCompat
 import android.os.Bundle
 import android.view.ViewGroup
 import android.widget.*
 import kotlinx.android.synthetic.main.activity_main.*
-import android.widget.Toast
-import android.graphics.Typeface
-
+import android.util.TypedValue
 
 
 class MainActivity : AppCompatActivity() {
@@ -59,10 +58,20 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     val toggleButton = ToggleButton(this)
                     var buttonTextOn = ""
+                    var buttonColorOn = Color.RED
                     when (columnCounter) {
-                        1 -> buttonTextOn = getString(R.string.fa_user)
-                        2 -> buttonTextOn = getString(R.string.fa_star)
-                        3 -> buttonTextOn = getString(R.string.fa_heart)
+                        1 -> {
+                            buttonTextOn = getString(R.string.fa_user)
+                            buttonColorOn = Color.RED
+                        }
+                        2 -> {
+                            buttonTextOn = getString(R.string.fa_star)
+                            buttonColorOn = Color.BLUE
+                        }
+                        3 -> {
+                            buttonTextOn = getString(R.string.fa_heart)
+                            buttonColorOn = Color.GREEN
+                        }
                     }
                     toggleButton.apply {
                         textOn = buttonTextOn
@@ -75,11 +84,14 @@ class MainActivity : AppCompatActivity() {
                             )
                         typeface = fontawesomeRegular
                     }
+                    toggleButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22f)
+                    toggleButton.setTextColor(buttonColorOn)
+                    toggleButton.setBackgroundColor(Color.TRANSPARENT)
                     toggleButton.setOnCheckedChangeListener { self, isChecked ->
                         if (!isChecked) {
                             return@setOnCheckedChangeListener
                         }
-                        Toast.makeText(this@MainActivity, buttonTextOn, Toast.LENGTH_SHORT).show()
+                        // Do something here
                     }
                     row.addView(toggleButton)
                 }
