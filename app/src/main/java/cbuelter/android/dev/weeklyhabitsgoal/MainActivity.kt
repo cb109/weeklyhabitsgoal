@@ -1,11 +1,15 @@
 package cbuelter.android.dev.weeklyhabitsgoal
 
 import android.support.v7.app.AppCompatActivity
+import android.support.v4.content.res.ResourcesCompat
 import android.os.Bundle
 import android.view.ViewGroup
 import android.widget.*
 import kotlinx.android.synthetic.main.activity_main.*
 import android.widget.Toast
+import android.graphics.Typeface
+
+
 
 class MainActivity : AppCompatActivity() {
     val tableLayout by lazy { TableLayout(this) }
@@ -26,6 +30,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun createTable(rows: Int, cols: Int) {
+        val fontawesomeRegular = ResourcesCompat.getFont(this, R.font.fa_regular_400)
+
         for (rowCounter in 0 until rows) {
             val row = TableRow(this)
             row.layoutParams = TableLayout.LayoutParams(
@@ -48,18 +54,18 @@ class MainActivity : AppCompatActivity() {
                         5 -> day = "Saturday"
                         6 -> day = "Sunday"
                     }
-                    textView.setText(day)
+                    textView.text = day
                     row.addView(textView)
                 } else {
                     val toggleButton = ToggleButton(this)
-                    var buttonText = ""
+                    var buttonTextOn = ""
                     when (columnCounter) {
-                        1 -> buttonText = "Meditate"
-                        2 -> buttonText = "Read"
-                        3 -> buttonText = "Workout"
+                        1 -> buttonTextOn = getString(R.string.fa_user)
+                        2 -> buttonTextOn = getString(R.string.fa_star)
+                        3 -> buttonTextOn = getString(R.string.fa_heart)
                     }
                     toggleButton.apply {
-                        textOn = buttonText
+                        textOn = buttonTextOn
                         textOff = ""
                         isChecked = false
                         layoutParams =
@@ -67,23 +73,16 @@ class MainActivity : AppCompatActivity() {
                                 TableRow.LayoutParams.WRAP_CONTENT,
                                 TableRow.LayoutParams.WRAP_CONTENT
                             )
+                        typeface = fontawesomeRegular
                     }
-                    toggleButton.setOnCheckedChangeListener { _, isChecked ->
-                        val msg = "Toggle Button is " + if (isChecked) "ON" else "OFF"
-                        Toast.makeText(this@MainActivity, msg, Toast.LENGTH_SHORT).show()
+                    toggleButton.setOnCheckedChangeListener { self, isChecked ->
+                        if (!isChecked) {
+                            return@setOnCheckedChangeListener
+                        }
+                        Toast.makeText(this@MainActivity, buttonTextOn, Toast.LENGTH_SHORT).show()
                     }
                     row.addView(toggleButton)
                 }
-
-
-//                val button = Button(this)
-//                button.apply {
-//                    layoutParams = TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
-//                        TableRow.LayoutParams.WRAP_CONTENT)
-//                    text = "$i x $j"
-//                }
-//
-//                row.addView(button)
             }
             tableLayout.addView(row)
         }
