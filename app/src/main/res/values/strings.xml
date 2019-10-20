@@ -1,6 +1,14 @@
 <resources>
     <string name="app_name">Weekly Habits Goal</string>
 
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
+    <string name="saturday">Saturday</string>
+    <string name="sunday">Sunday</string>
+
     <string name="fa_glass">&#xf000;</string>
     <string name="fa_music">&#xf001;</string>
     <string name="fa_search">&#xf002;</string>

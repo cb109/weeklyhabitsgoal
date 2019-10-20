@@ -47,13 +47,13 @@ class MainActivity : AppCompatActivity() {
                     val textView = TextView(this)
                     var day = ""
                     when (rowCounter) {
-                        0 -> day = "Monday"
-                        1 -> day = "Tuesday"
-                        2 -> day = "Wednesday"
-                        3 -> day = "Thursday"
-                        4 -> day = "Friday"
-                        5 -> day = "Saturday"
-                        6 -> day = "Sunday"
+                        0 -> day = getString(R.string.monday)
+                        1 -> day = getString(R.string.tuesday)
+                        2 -> day = getString(R.string.wednesday)
+                        3 -> day = getString(R.string.thursday)
+                        4 -> day = getString(R.string.friday)
+                        5 -> day = getString(R.string.saturday)
+                        6 -> day = getString(R.string.sunday)
                     }
                     textView.text = day
                     textView.setGravity(Gravity.CENTER);
