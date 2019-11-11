@@ -1,14 +1,17 @@
 package cbuelter.android.dev.weeklyhabitsgoal
 
 import android.graphics.Color
-import android.support.v7.app.AppCompatActivity
-import android.support.v4.content.res.ResourcesCompat
 import android.os.Bundle
-import android.view.ViewGroup
-import android.widget.*
-import kotlinx.android.synthetic.main.activity_main.*
 import android.util.TypedValue
 import android.view.Gravity
+import android.view.ViewGroup
+import android.widget.TableLayout
+import android.widget.TableRow
+import android.widget.TextView
+import android.widget.ToggleButton
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -56,7 +59,7 @@ class MainActivity : AppCompatActivity() {
                         6 -> day = getString(R.string.sunday)
                     }
                     textView.text = day
-                    textView.setGravity(Gravity.CENTER);
+                    textView.setGravity(Gravity.RIGHT);
                     row.addView(textView)
                 } else {
                     val toggleButton = ToggleButton(this)
@@ -91,9 +94,9 @@ class MainActivity : AppCompatActivity() {
                     toggleButton.setTextColor(buttonColorOn)
                     toggleButton.setBackgroundColor(Color.TRANSPARENT)
                     toggleButton.setOnCheckedChangeListener { self, isChecked ->
-                        if (!isChecked) {
-                            return@setOnCheckedChangeListener
-                        }
+                        //if (!isChecked) {
+                        //    return@setOnCheckedChangeListener
+                        //}
                         // Do something here
                     }
                     row.addView(toggleButton)
