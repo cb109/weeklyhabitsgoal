@@ -11,10 +11,13 @@ import android.widget.ToggleButton
 import androidx.core.content.res.ResourcesCompat
 
 
-fun createTable(mainActivity: Activity, tableLayout: TableLayout, rows: Int, cols: Int) {
-    val fontawesomeRegular = ResourcesCompat.getFont(mainActivity, R.font.fa_regular_400)
+// FIXME: Since habits are loaded async one by one via the observed LiveData, we must first create the table with one default column and then have a function to add new columns to it one by one.
 
-    for (rowCounter in 0 until rows) {
+fun createTable(mainActivity: Activity, tableLayout: TableLayout, habits: List<String>) {
+    val fontawesomeRegular = ResourcesCompat.getFont(mainActivity, R.font.fa_regular_400)
+    val numWeekDays = 7
+
+    for (rowCounter in 0 until numWeekDays) {
         val row = TableRow(mainActivity)
         row.layoutParams = TableLayout.LayoutParams(
             TableLayout.LayoutParams.MATCH_PARENT,
@@ -23,7 +26,7 @@ fun createTable(mainActivity: Activity, tableLayout: TableLayout, rows: Int, col
         )
         row.setGravity(Gravity.CENTER);
 
-        for (columnCounter in 0 until cols) {
+        for (columnCounter in 0 until habits.count() + 1) {
             tableLayout.setColumnStretchable(columnCounter, true)
             if (columnCounter == 0) {
                 val textView = TextView(mainActivity)
@@ -42,22 +45,24 @@ fun createTable(mainActivity: Activity, tableLayout: TableLayout, rows: Int, col
                 row.addView(textView)
             } else {
                 val toggleButton = ToggleButton(mainActivity)
-                var buttonTextOn = ""
-                var buttonColorOn = Color.RED
-                when (columnCounter) {
-                    1 -> {
-                        buttonTextOn = mainActivity.getString(R.string.fa_user)
-                        buttonColorOn = Color.RED
-                    }
-                    2 -> {
-                        buttonTextOn = mainActivity.getString(R.string.fa_star)
-                        buttonColorOn = Color.BLUE
-                    }
-                    3 -> {
-                        buttonTextOn = mainActivity.getString(R.string.fa_heart)
-                        buttonColorOn = Color.GREEN
-                    }
-                }
+//                var buttonTextOn = ""
+                val buttonTextOn = habits[columnCounter - 1]
+//                val buttonColorOn = Color.RED
+
+//                when (columnCounter) {
+//                    1 -> {
+//                        buttonTextOn = mainActivity.getString(R.string.fa_user)
+//                        buttonColorOn = Color.RED
+//                    }
+//                    2 -> {
+//                        buttonTextOn = mainActivity.getString(R.string.fa_star)
+//                        buttonColorOn = Color.BLUE
+//                    }
+//                    3 -> {
+//                        buttonTextOn = mainActivity.getString(R.string.fa_heart)
+//                        buttonColorOn = Color.GREEN
+//                    }
+//                }
                 toggleButton.apply {
                     textOn = buttonTextOn
                     textOff = ""
@@ -69,8 +74,8 @@ fun createTable(mainActivity: Activity, tableLayout: TableLayout, rows: Int, col
                         )
                     typeface = fontawesomeRegular
                 }
-                toggleButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22f)
-                toggleButton.setTextColor(buttonColorOn)
+//                toggleButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22f)
+//                toggleButton.setTextColor(buttonColorOn)
                 toggleButton.setBackgroundColor(Color.TRANSPARENT)
                 toggleButton.setOnCheckedChangeListener { self, isChecked ->
                     //if (!isChecked) {
