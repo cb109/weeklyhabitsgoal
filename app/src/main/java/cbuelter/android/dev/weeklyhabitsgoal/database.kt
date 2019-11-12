@@ -24,6 +24,9 @@ interface HabitDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(habit: Habit)
 
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertAll(vararg habit: Habit)
+
     @Query("DELETE FROM habit_table")
     suspend fun deleteAll()
 }
@@ -41,18 +44,14 @@ public abstract class HabitRoomDatabase : RoomDatabase() {
             super.onOpen(db)
             INSTANCE?.let { database ->
                 scope.launch {
-                    populateDatabase(database.habitDao())
+                    val habitDao = database.habitDao()
+
+                    habitDao.deleteAll()
+
+//                    val habitNames: Array<String> = arrayOf("Meditation", "Reading", "Workout")
+//                    val habits = habitNames.map { Habit(it) }
+//                    habitDao.insertAll(*habits.toTypedArray())
                 }
-            }
-        }
-
-        suspend fun populateDatabase(habitDao: HabitDao) {
-            habitDao.deleteAll()
-
-            val initialHabits: Array<String> = arrayOf("Meditation", "Reading", "Workout")
-            for (habitName in initialHabits) {
-                val habit = Habit(habitName)
-                habitDao.insert(habit)
             }
         }
     }
