@@ -9,6 +9,8 @@
     <string name="saturday">Saturday</string>
     <string name="sunday">Sunday</string>
 
+    <string name="menu_item_manage_habits">Manage Habits</string>
+
     <string name="fa_glass">&#xf000;</string>
     <string name="fa_music">&#xf001;</string>
     <string name="fa_search">&#xf002;</string>
@@ -602,4 +604,5 @@
     <string name="fa_train">&#xf238;</string>
     <string name="fa_subway">&#xf239;</string>
     <string name="fa_medium">&#xf23a;</string>
+    <string name="title_activity_manage_habits">ManageHabitsActivity</string>
 </resources>
