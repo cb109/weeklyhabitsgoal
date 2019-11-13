@@ -2,6 +2,7 @@ package cbuelter.android.dev.weeklyhabitsgoal
 
 import android.app.Application
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
@@ -18,6 +19,9 @@ class Habit(
 
 @Dao
 interface HabitDao {
+    @Query("SELECT COUNT(*) from habit_table")
+    suspend fun getNumHabits(): Int
+
     @Query("SELECT * from habit_table ORDER BY habit ASC")
     fun getAlphabetizedHabits(): LiveData<List<Habit>>
 
@@ -25,7 +29,7 @@ interface HabitDao {
     suspend fun insert(habit: Habit)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertAll(vararg habit: Habit)
+    suspend fun insertAll(habits: List<Habit>)
 
     @Query("DELETE FROM habit_table")
     suspend fun deleteAll()
@@ -45,12 +49,15 @@ public abstract class HabitRoomDatabase : RoomDatabase() {
             INSTANCE?.let { database ->
                 scope.launch {
                     val habitDao = database.habitDao()
-
-                    habitDao.deleteAll()
-
-//                    val habitNames: Array<String> = arrayOf("Meditation", "Reading", "Workout")
-//                    val habits = habitNames.map { Habit(it) }
-//                    habitDao.insertAll(*habits.toTypedArray())
+                    val noHabitsYet = habitDao.getNumHabits() == 0
+                    if (noHabitsYet) {
+                        Log.d("DEBUG", "No habits found, adding default habits...")
+                        val defaultHabits: List<Habit> = arrayOf("Workout", "Reading", "Meditation").map { Habit(it) }
+                        habitDao.insertAll(defaultHabits)
+                    }
+                    else {
+                        Log.d("DEBUG", "Some habits have been found")
+                    }
                 }
             }
         }

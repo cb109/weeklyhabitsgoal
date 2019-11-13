@@ -1,7 +1,7 @@
 package cbuelter.android.dev.weeklyhabitsgoal
 
 import android.os.Bundle
-import android.view.ViewGroup
+import android.util.Log
 import android.widget.TableLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -15,22 +15,21 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
+        mainLinearLayout.addView(tableLayout)
 
         // Read habits from database.
         habitViewModel = ViewModelProvider(this).get(HabitViewModel::class.java)
         habitViewModel.allHabits.observe(this, Observer { habits ->
+            if (habits.isEmpty()) {
+                // Avoid creating the table before we fetch some data.
+                return@Observer
+            }
+
             // Create the table.
             val habitNames = habits.map { it.habit }
             createTable(this, tableLayout, habitNames)
-            
-            val tableLayoutParams =
-                TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-            tableLayout.apply {
-                layoutParams = tableLayoutParams
-                isShrinkAllColumns = true
-            }
-            mainLinearLayout.addView(tableLayout)
         })
     }
 }

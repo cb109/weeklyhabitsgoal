@@ -2,8 +2,8 @@ package cbuelter.android.dev.weeklyhabitsgoal
 
 import android.app.Activity
 import android.graphics.Color
-import android.util.TypedValue
 import android.view.Gravity
+import android.view.ViewGroup
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
@@ -11,11 +11,16 @@ import android.widget.ToggleButton
 import androidx.core.content.res.ResourcesCompat
 
 
-// FIXME: Since habits are loaded async one by one via the observed LiveData, we must first create the table with one default column and then have a function to add new columns to it one by one.
-
 fun createTable(mainActivity: Activity, tableLayout: TableLayout, habits: List<String>) {
     val fontawesomeRegular = ResourcesCompat.getFont(mainActivity, R.font.fa_regular_400)
     val numWeekDays = 7
+
+    val tableLayoutParams =
+        TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+    tableLayout.apply {
+        layoutParams = tableLayoutParams
+        isShrinkAllColumns = true
+    }
 
     for (rowCounter in 0 until numWeekDays) {
         val row = TableRow(mainActivity)
